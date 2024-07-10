@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "../css/List.css";
 
 function List(props) {
   const [members, setMembers] = useState([]);
@@ -17,11 +18,17 @@ function List(props) {
       });
   }, []);
   return (
-    <div>
+    <div className="container">
       {/* props로 전달된 배열을 출력 */}
       {members.map((list, idx) => {
         // return (<div>{JSON.stringify(list)}</div>)
-        return <div>{JSON.stringify(list)}</div>;
+        return (
+        <div className="user-info">
+          <ul className="info-ul">
+            <li>{list.userid}</li>
+            <li>{list.name}</li>
+          </ul>
+        </div>);
       })}
     </div>
   );

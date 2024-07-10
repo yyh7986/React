@@ -1,13 +1,5 @@
-npm i react-router-dom
-npx create-react-app projectname
-
-
-
 const express = require("express");
 const path = require("path");
-const mysql = require("mysql2/promise");
-const multer = require("multer");
-const fs = require("fs");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 
@@ -23,12 +15,14 @@ app.use(session({
 app.set("port", process.env.PORT || 5000);
 app.use("/img", express.static(path.join(__dirname, "uploads")));
 
-
+const memberRouter = require("./Routers/members");
+const boardRouter = require("./Routers/boards");
+app.use("/members", memberRouter);
+app.use("/boards", boardRouter);
 
 app.get("/", (req, res) => {
   res.send("<h1>hello world</h1>");
 });
-
 
 
 app.listen(app.get("port"), () => {
