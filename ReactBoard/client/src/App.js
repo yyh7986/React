@@ -6,6 +6,8 @@ import Main from "./Component/Main";
 import JoinForm from "./Component/member/JoinForm";
 import MemberUpdate from "./Component/member/MemberUpdate";
 import BoardView from "./Component/board/BoardView";
+import WriteBoard from "./Component/board/WriteBoard";
+import UpdateBoard from "./Component/board/UpdateBoard";
 
 function App() {
   const [member, setMember] = useState([]);
@@ -20,6 +22,8 @@ function App() {
       <Route path="/joinForm" element={<JoinForm />}></Route>
       <Route path="/memberUpdate" element={<MemberUpdate />}></Route>
       <Route path="/boardView/:num" element={<BoardView />}></Route>
+      <Route path="/writeBoard" element={<WriteBoard />}></Route>
+      <Route path="/updateBoard/:num" element={<UpdateBoard />}></Route>
     </Routes>
   );
 }

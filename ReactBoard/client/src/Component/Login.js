@@ -10,7 +10,8 @@ function Login(props) {
 
   const navigate = useNavigate();
 
-  const onsubmit = () => {
+  const onsubmit = (e) => {
+    e.preventDefault();
     if (!userid) {
       return alert("아이디를 입력하세요");
     }
@@ -59,10 +60,10 @@ function Login(props) {
         </div>
         <div className="btns">
           <input
-            type="button"
+            type="submit"
             value="LOG IN"
-            onClick={() => {
-              onsubmit();
+            onClick={(e) => {
+              onsubmit(e);
             }}
           />
           <input type="button" value="JOIN" onClick={() => {

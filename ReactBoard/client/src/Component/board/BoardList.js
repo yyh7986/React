@@ -6,13 +6,23 @@ import "../../style/board.css";
 
 function BoardList() {
   const [boardList, setBoardList] = useState([]);
+  const [paging, setPaging] = useState({});
+  const [beginToEnd, setBeginToEnd] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     axios
-      .get("/api/boards/getBoardList")
+      .get("/api/boards/getBoardList/1")
       .then((res) => {
         setBoardList([...res.data.boardList]);
+        setPaging(res.data.paging);
+
+        const pageArr = [];
+        const { beginPage, endPage } = res.data.paging;
+        for (let i = beginPage; i <= endPage; i++) {
+          pageArr.push(i);
+        }
+        setBeginToEnd([...pageArr]);
       })
       .catch((err) => {
         console.error(err);
@@ -21,6 +31,21 @@ function BoardList() {
 
   const onBoardView = (num) => {
     navigate("/boardView/" + num);
+  };
+
+  const onPageMove = (page) =>{
+    axios.get(`/api/boards/getBoardList/${page}`)
+    .then(res=>{
+      setBoardList([...res.data.boardList]);
+        setPaging(res.data.paging);
+        const pageArr = [];
+        const { beginPage, endPage } = res.data.paging;
+        for (let i = beginPage; i <= endPage; i++) {
+          pageArr.push(i);
+        }
+        setBeginToEnd([...pageArr]);
+    })
+    .catch(err=>{});
   };
 
   return (
@@ -50,6 +75,33 @@ function BoardList() {
           </div>
         );
       })}
+
+      <div id="paging">
+        {
+          (paging.prev)?(
+          <span style={{cursor:"pointer"}} onClick={()=>{
+            onPageMove(paging.beginPage-1)
+          }}>&nbsp;◀&nbsp;</span>):
+          (<span></span>)
+        }
+        {
+          (beginToEnd)?(
+            beginToEnd.map((page, idx)=>{
+              return(
+                <span style={{cursor:"pointer"}} key={idx} onClick={()=>{onPageMove(page)}
+                }>&nbsp;{page}&nbsp;</span>
+              )
+            })):
+          (<></>)
+        }
+        {
+          (paging.next)?(
+            <span style={{cursor:"pointer"}} onClick={()=>
+              {onPageMove(paging.endPage+1)}
+            }>&nbsp;▶&nbsp;</span>):
+            (<></>)
+        }
+      </div>
     </div>
   );
 }
