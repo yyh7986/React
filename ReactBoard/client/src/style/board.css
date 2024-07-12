@@ -109,9 +109,9 @@ body {
   margin: 1px;
   border: 1px dotted blue;
   border-radius: 5px;
-  height: 45px;
+  height: 100px;
   text-align: center;
-  line-height: 45px;
+  line-height: 100px;
 }
 .col:nth-child(1) {
   flex: 1;
