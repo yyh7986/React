@@ -43,6 +43,10 @@
   flex: 4;
   border-radius: 10px;
 }
+.loginform .field div {
+  flex: 4;
+  border-radius: 10px;
+}
 .loginform .btns,
 .loginform .snslogin {
   border: 1px dotted blue;
@@ -63,7 +67,6 @@
   padding: 5px;
   font-size: 1.1rem;
   border-radius: 10px;
-  cursor: pointer;
 }
 .loginform .btns button:last-child,
 .loginform .snslogin button:last-child {
