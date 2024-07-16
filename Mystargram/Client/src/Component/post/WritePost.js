@@ -56,46 +56,43 @@ function WritePost() {
   
   const imgUpload = async (e, n) =>{
     let formData = new FormData();
-    console.log("e.target.files[0] ==============\n", e.target.files[0]);
     formData.append("image", e.target.files[0]);
-    console.log("formData.image ==============\n", formData.image);
     const result = await axios.post("/api/post/imgup", formData);
 
-    if(n==1){
+    if(n===1){
       setDivStyle2(fieldStyle);
       setImgSrc1(`http://localhost:5000/upimg/${result.data.filename}`);
-    }else if(n == 2){
+    }else if(n === 2){
       setDivStyle3(fieldStyle);
       setImgSrc2(`http://localhost:5000/upimg/${result.data.filename}`);
-    }else if(n == 3){
+    }else if(n === 3){
       setDivStyle4(fieldStyle);
       setImgSrc3(`http://localhost:5000/upimg/${result.data.filename}`);
-    }else if(n == 4){
+    }else if(n === 4){
       setDivStyle5(fieldStyle);
       setImgSrc4(`http://localhost:5000/upimg/${result.data.filename}`);
-    }else if(n == 5){
+    }else if(n === 5){
       setDivStyle6(fieldStyle);
       setImgSrc5(`http://localhost:5000/upimg/${result.data.filename}`);
-    }else if(n == 6){
+    }else if(n === 6){
       setDivStyle7(fieldStyle);
       setImgSrc6(`http://localhost:5000/upimg/${result.data.filename}`);
-    }else if(n == 7){
+    }else if(n === 7){
       setDivStyle8(fieldStyle);
       setImgSrc7(`http://localhost:5000/upimg/${result.data.filename}`);
-    }else if(n == 8){
+    }else if(n === 8){
       setDivStyle9(fieldStyle);
       setImgSrc8(`http://localhost:5000/upimg/${result.data.filename}`);
-    }else if(n == 9){
+    }else if(n === 9){
       setDivStyle10(fieldStyle);
       setImgSrc9(`http://localhost:5000/upimg/${result.data.filename}`);
-    }else if(n == 10){
+    }else if(n === 10){
       setImgSrc10(`http://localhost:5000/upimg/${result.data.filename}`);
     }
 
     let arr = [...imgList];
     arr.push(result.data.filename);
     setImgList([...arr]);
-    console.log(imgList);
     
   }
 
@@ -132,25 +129,25 @@ function WritePost() {
           <textarea rows="7" value={content} onChange={(e)=>{setContent(e.currentTarget.value)}}></textarea>
         </div>
         <div className="field" id="img1" style={divStyle1}><input type="file" onChange={(e)=>{imgUpload(e, 1)}} /></div>
-        <img src={imgSrc1} height="50" />
+        <img src={imgSrc1} height="50" alt="" />
         <div className="field" id="img2" style={divStyle2}><input type="file" onChange={(e)=>{imgUpload(e, 2)}} /></div>
-        <img src={imgSrc2} height="50" />
+        <img src={imgSrc2} height="50" alt="" />
         <div className="field" id="img3" style={divStyle3}><input type="file" onChange={(e)=>{imgUpload(e, 3)}} /></div>
-        <img src={imgSrc3} height="50" />
+        <img src={imgSrc3} height="50" alt="" />
         <div className="field" id="img4" style={divStyle4}><input type="file" onChange={(e)=>{imgUpload(e, 4)}} /></div>
-        <img src={imgSrc4} height="50" />
+        <img src={imgSrc4} height="50" alt="" />
         <div className="field" id="img5" style={divStyle5}><input type="file" onChange={(e)=>{imgUpload(e, 5)}} /></div>
-        <img src={imgSrc5} height="50" />
+        <img src={imgSrc5} height="50" alt="" />
         <div className="field" id="img6" style={divStyle6}><input type="file" onChange={(e)=>{imgUpload(e, 6)}} /></div>
-        <img src={imgSrc6} height="50" />
+        <img src={imgSrc6} height="50" alt="" />
         <div className="field" id="img7" style={divStyle7}><input type="file" onChange={(e)=>{imgUpload(e, 7)}} /></div>
-        <img src={imgSrc7} height="50" />
+        <img src={imgSrc7} height="50" alt="" />
         <div className="field" id="img8" style={divStyle8}><input type="file" onChange={(e)=>{imgUpload(e, 8)}} /></div>
-        <img src={imgSrc8} height="50" />
+        <img src={imgSrc8} height="50" alt="" />
         <div className="field" id="img9" style={divStyle9}><input type="file" onChange={(e)=>{imgUpload(e, 9)}} /></div>
-        <img src={imgSrc9} height="50" />
+        <img src={imgSrc9} height="50" alt="" />
         <div className="field" id="img10" style={divStyle10}><input type="file" onChange={(e)=>{imgUpload(e, 10)}} /></div>
-        <img src={imgSrc10} height="50" />
+        <img src={imgSrc10} height="50" alt="" />
         <div className="btns">
           <button onClick={()=>{onSubmit()}}>작성완료</button>
           <button onClick={()=>{navigate("/main")}}>돌아가기</button>

@@ -92,7 +92,26 @@ router.post("/writeImages", async (req, res)=>{
   }
 })
 
-router.get("/getPostList", async (req,res)=>{
+let paging = {
+  page : 1, // 현재 페이지
+  displayRow : 3, // 한 스크롤에 보여줄 피드 갯수
+  startNum : 0,
+  endNum : 0,
+  calPaging : function(){
+    this.startNum = (this.page-1) * this.displayRow + 1;
+    this.endNum = this.page * this.displayRow;
+    console.log("start end", this.startNum + " " + this.endNum);
+  }
+}
+
+router.get("/getPostList/:page", async (req,res)=>{
+  if(req.params.page != undefined){
+    paging.page = req.params.page;
+  }else{
+    paging.page = 1;
+  }
+  paging.calPaging();
+  
   try {
     const con = await getConnection();
     const sql = "SELECT * FROM post ORDER BY id DESC";
@@ -138,6 +157,40 @@ router.post("/addLike", async(req, res)=>{
       sql = "INSERT INTO likes(postid, likenick) VALUES(?,?)";
       const [result, field] = await con.query(sql, [postid, likenick]);
     }
+    res.send("ok");
+  } catch (error) {
+    console.error(error);
+  }
+})
+
+router.get("/getReplys/:postid", async (req, res)=>{
+  try {
+    const con = await getConnection();
+    const sql = "SELECT * FROM reply WHERE postid=? ORDER BY id DESC";
+    const [result, fields] = await con.query(sql, [req.params.postid]);
+    res.send(result);
+  } catch (err) {
+    console.error(err);
+  }
+})
+
+router.post("/addReply", async(req, res)=>{
+  const {writer, content, postid} = req.body;
+  try {
+    const con = await getConnection();
+    const sql = "INSERT INTO reply(postid, writer, content) VALUES(?,?,?)";
+    const [result, field] = await con.query(sql, [postid, writer, content]);
+    res.send("ok");
+  } catch (error) {
+    console.error(error);
+  }
+})
+
+router.delete("/deleteReply/:id", async (req, res)=>{
+  try {
+    const con = await getConnection();
+    const sql = "DELETE FROM reply WHERE id=?";
+    const [result, field] = await con.query(sql, [req.params.id]);
     res.send("ok");
   } catch (error) {
     console.error(error);

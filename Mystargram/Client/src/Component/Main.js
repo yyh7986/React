@@ -18,13 +18,12 @@ function Main() {
                     alert('로그인이 필요합니다');
                     navigate('/');
                 }
-                // setLoginUser(result.data.loginUser);
+                setLoginUser(result.data.loginUser);
             })
 
             axios.get("/api/post/getPostList")
             .then(res=>{
                 setPostList(res.data.postList);
-                console.log("postList : ", postList);
             })
             .catch(err=>{
                 console.error(err);
@@ -41,7 +40,7 @@ function Main() {
                     ) ? (
                         postList.map((post,idx)=>{
                             return(
-                                <Post post={post} key={idx}/>
+                                <Post post={post} key={idx} loginUser={loginUser}/>
                             )
                         })
                     ) : (

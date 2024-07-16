@@ -125,13 +125,58 @@ router.get('/kakao/callback',
 );
 
 
-router.get('/getLoginUser', (req, res)=>{
-    res.send({loginUser:req.user});
+router.get('/getLoginUser', async (req, res)=>{
+    try {
+        const con = await getConnection();
+
+        let sql = "SELECT * FROM follow WHERE ffrom=?";
+        let [rows, fields] = await con.query(sql, [req.user.nickname]);
+        // ffrom 에서 로그인 유저닉네임을 검색하고 검색결과 fto들을 정리해서 배열로 변환
+        let followings = (rows.length>=1) ? rows.map((f)=>(f.fto)):[];
+
+        sql = "SELECT * FROM follow WHERE fto=?";
+        [rows, fields] = await con.query(sql, [req.user.nickname]);
+        // ffrom 에서 로그인 유저닉네임을 검색하고 검색결과 fto들을 정리해서 배열로 변환
+        followers = (rows.length>=1) ? rows.map((f)=>(f.ffrom)):[];
+
+        res.send({loginUser:req.user, followings, followers});
+
+        con.end();
+    } catch (err) {
+        console.error(err);
+    }
 });
+
+
+router.get("/getFollowings", async(req, res)=>{
+    try {
+        const con = await getConnection();
+
+        let sql = "SELECT * FROM follow WHERE ffrom=?";
+        let [rows, fields] = await con.query(sql, [req.user.nickname]);
+        let followings = (rows.length>=1) ? rows.map((f)=>(f.fto)):[];
+        res.send(followings);
+        con.end();
+    } catch (error) {
+        
+    }
+})
 
 router.get("/logout", (req,res)=>{
     req.session.destroy();
     res.send("ok");
+})
+
+router.post("/follow", async (req, res)=>{
+    const {ffrom, fto} = req.body;
+    try {
+        const con = await getConnection();
+        let sql = "INSERT INTO follow(ffrom, fto) VALUES(?,?)";
+        let [result, field] = await con.query(sql, [ffrom, fto]);
+        res.send("ok");
+    } catch (err) {
+        console.error(err);
+    }
 })
 
 module.exports = router;
