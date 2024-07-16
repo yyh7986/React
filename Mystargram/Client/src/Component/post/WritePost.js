@@ -8,6 +8,7 @@ function WritePost() {
 
   const navigate = useNavigate();
   const [loginUser, setLoginUser] = useState({});
+  const [word, setWord] = useState("");
   const [content, setContent] = useState("");
   
   const [imgSrc1, setImgSrc1] = useState("");
@@ -121,7 +122,7 @@ function WritePost() {
 
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
-      <MainMenu></MainMenu>
+      <MainMenu setWord={setWord}></MainMenu>
       <div className="postWrite">
         <div className="title" style={{fontFamily:"Dancing Script", fontSize:"150%"}}>Feed Write</div>
         <div className="field">

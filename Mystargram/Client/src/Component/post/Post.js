@@ -58,7 +58,7 @@ function Post(props) {
     axios.get(`/api/post/getReplys/${props.post.id}`)
     .then(res=>{setReplyList(res.data)})
     .catch(err=>{console.error(err)});
-  },[])
+  },[props.post])
   
   // useEffect [viewVal]
   useEffect(()=>{

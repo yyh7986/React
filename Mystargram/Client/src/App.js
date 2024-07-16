@@ -4,6 +4,8 @@ import Login from './Component/Login';
 import Main from './Component/Main';
 import Join from './Component/member/Join';
 import WritePost from './Component/post/WritePost';
+import MyPage from './Component/member/MyPage';
+import PostView from './Component/post/PostView';
 
 function App() {
   
@@ -14,6 +16,8 @@ function App() {
         <Route path='/join' element={<Join/>}></Route>
         <Route path='/main' element={<Main/>}></Route>
         <Route path='/writePost' element={<WritePost/>}></Route>
+        <Route path='/myPage' element={<MyPage/>}></Route>
+        <Route path='/postView' element={<PostView/>}></Route>
       </Routes>
     </div>
   );

@@ -9,7 +9,41 @@ import Post from './post/Post';
 function Main() {
     const [loginUser, setLoginUser] = useState({});
     const [postList, setPostList] = useState([]);
+    const [paging, setPaging] = useState({});
+    const [word, setWord] = useState("n");
     const navigate = useNavigate();
+
+    useEffect(()=>{
+        window.addEventListener("scroll", handleScroll);
+
+        return () =>{
+            window.removeEventListener("scroll", handleScroll);
+        }
+    })
+
+    const handleScroll = () => {
+        // 스크롤이 가능한 크기
+        const scrollHeight = document.documentElement.scrollHeight - 50;
+        // 현재 위치
+        const scrollTop = document.documentElement.scrollTop;
+        // 내용물의 크기
+        const clientHeight = document.documentElement.clientHeight;
+
+        if(scrollTop + clientHeight >= scrollHeight){
+            onPageMove(Number(paging.page) + 1);
+        }
+
+    }
+    
+    async function onPageMove(page){
+        const result = await axios.get(`/api/post/getPostList/${page}/${word}`);
+        setPaging(result.data.paging);
+        let posts = [];
+        posts = [...postList];
+        posts = [...posts, ...result.data.postList];
+        setPostList([...posts]);
+    }
+
     useEffect(
         ()=>{
             axios.get('/api/member/getLoginUser')
@@ -21,18 +55,20 @@ function Main() {
                 setLoginUser(result.data.loginUser);
             })
 
-            axios.get("/api/post/getPostList")
+            axios.get(`/api/post/getPostList/1/${word}`)
             .then(res=>{
                 setPostList(res.data.postList);
+                setPaging(res.data.paging);
             })
             .catch(err=>{
                 console.error(err);
             })
-        },[]
+        },[word]
     )
     return (
         <div style={{display:'flex', flexDirection:"column", alignItems:"center"}}>
-            <MainMenu></MainMenu>
+            <MainMenu setWord={setWord}></MainMenu>
+
             <div className="Posts">
                 {
                     (
